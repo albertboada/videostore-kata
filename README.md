@@ -1,6 +1,8 @@
 # Videostore Kata README #
 
-This README would normally document whatever steps are necessary to get your application up and running. 
+[![Build Status](https://travis-ci.org/albertboada/videostore-kata.svg?branch=session-1)](https://travis-ci.org/albertboada/videostore-kata)
+
+This README would normally document whatever steps are necessary to get your application up and running.
 
 ### Requirements ###
 
