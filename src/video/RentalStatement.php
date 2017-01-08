@@ -9,10 +9,6 @@ class RentalStatement
 {
     /** @var  string */
     private $name;
-    /** @var  float */
-    private $totalAmount;
-    /** @var  int */
-    private $frequentRenterPoints;
     /** @var  array */
     private $rentals;
 
@@ -38,18 +34,7 @@ class RentalStatement
      */
     public function makeRentalStatement()
     {
-        $this->clearTotals();
-
         return $this->makeHeader() . $this->makeRentalLines() . $this->makeSummary();
-    }
-
-    /**
-     * Reset amount and points.
-     */
-    private function clearTotals()
-    {
-        $this->totalAmount = 0;
-        $this->frequentRenterPoints = 0;
     }
 
     /**
@@ -80,13 +65,7 @@ class RentalStatement
      */
     private function makeRentalLine($rental) : string
     {
-        /** @var float $thisAmount */
-        $thisAmount = $rental->determineAmount();
-
-        $this->frequentRenterPoints += $rental->determineFrequentRenterPoints();
-        $this->totalAmount += $thisAmount;
-
-        return $this->formatRentalLine($rental, $thisAmount);
+        return $this->formatRentalLine($rental, $rental->determineAmount());
     }
 
     /**
@@ -104,7 +83,7 @@ class RentalStatement
      */
     private function makeSummary() : string
     {
-        return "You owed " . $this->totalAmount . "\n" . "You earned " . $this->frequentRenterPoints . " frequent renter points\n";
+        return "You owed " . $this->amountOwed() . "\n" . "You earned " . $this->frequentRenterPoints() . " frequent renter points\n";
     }
 
     /**
@@ -122,7 +101,11 @@ class RentalStatement
      */
     public function amountOwed() : float
     {
-        return $this->totalAmount;
+        $totalAmount = 0;
+        foreach ($this->rentals as /** @var Rental **/$rental) {
+            $totalAmount += $rental->determineAmount();
+        }
+        return $totalAmount;
     }
 
     /**
@@ -131,6 +114,10 @@ class RentalStatement
      */
     public function frequentRenterPoints() : int
     {
-        return $this->frequentRenterPoints;
+        $frequentRenterPoints = 0;
+        foreach ($this->rentals as /** @var Rental **/ $rental) {
+            $frequentRenterPoints += $rental->determineFrequentRenterPoints();
+        }
+        return $frequentRenterPoints;
     }
 }
