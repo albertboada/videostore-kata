@@ -14,11 +14,11 @@ class RentalStatement
 
     /**
      * RentalStatement constructor.
-     * @param $customerName
+     * @param string $customerName
      */
-    public function __construct($customerName)
+    public function __construct(string $customerName)
     {
-        $this->order = new Order($customerName);
+        $this->order = new Order(new Customer($customerName));
     }
 
     /**
@@ -92,7 +92,7 @@ class RentalStatement
      */
     public function name(): string
     {
-        return $this->order->customerName();
+        return $this->order->customer()->name();
     }
 
     public function rentals(): array

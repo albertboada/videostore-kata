@@ -2,29 +2,30 @@
 
 namespace webflix\Entity;
 
+use video\Customer;
 use video\Rental;
 
 class Order
 {
-    /** @var string */
-    private $customerName;
+    /** @var Customer */
+    private $customer;
 
     /** @var Rental[] */
     private $rentals = [];
 
     /**
      * Order constructor.
-     * @param string $customerName
+     * @param Customer $customer
      */
-    public function __construct(string $customerName) {
-        $this->customerName = $customerName;
+    public function __construct(Customer $customer) {
+        $this->customer = $customer;
     }
 
     /**
-     * @return string
+     * @return Customer
      */
-    public function customerName(): string {
-        return $this->customerName;
+    public function customer(): Customer {
+        return $this->customer;
     }
 
     /**
