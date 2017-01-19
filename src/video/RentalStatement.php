@@ -2,15 +2,15 @@
 
 namespace video;
 
+use webflix\Entity\Order;
+
 /**
  * Class RentalStatement
  */
 class RentalStatement
 {
-    /** @var  string */
-    private $name;
-    /** @var  array */
-    private $rentals;
+    /** @var Order */
+    private $order;
 
     /**
      * RentalStatement constructor.
@@ -18,15 +18,15 @@ class RentalStatement
      */
     public function __construct($customerName)
     {
-        $this->name = $customerName;
+        $this->order = new Order($customerName);
     }
 
     /**
      * @param Rental $rental
      */
-    public function addRental($rental)
+    public function addRental(Rental $rental)
     {
-        $this->rentals[] = $rental;
+        $this->order->addRental($rental);
     }
 
     /**
@@ -48,11 +48,11 @@ class RentalStatement
     /**
      * @return string
      */
-    private function makeRentalLines() : string
+    private function makeRentalLines(): string
     {
         $rentalLines = "";
 
-        foreach($this->rentals as $rental) {
+        foreach ($this->rentals() as $rental) {
             $rentalLines .= $this->makeRentalLine($rental);
         }
 
@@ -90,34 +90,31 @@ class RentalStatement
      * Name accessor.
      * @return string
      */
-    public function name() : string
+    public function name(): string
     {
-        return $this->name;
+        return $this->order->customerName();
+    }
+
+    public function rentals(): array
+    {
+        return $this->order->rentals();
     }
 
     /**
      * Amount owed accessor.
      * @return float
      */
-    public function amountOwed() : float
+    public function amountOwed(): float
     {
-        $totalAmount = 0;
-        foreach ($this->rentals as /** @var Rental **/$rental) {
-            $totalAmount += $rental->determineAmount();
-        }
-        return $totalAmount;
+        return $this->order->amountOwed();
     }
 
     /**
      * Frequent renter points accessor.
      * @return int
      */
-    public function frequentRenterPoints() : int
+    public function frequentRenterPoints(): int
     {
-        $frequentRenterPoints = 0;
-        foreach ($this->rentals as /** @var Rental **/ $rental) {
-            $frequentRenterPoints += $rental->determineFrequentRenterPoints();
-        }
-        return $frequentRenterPoints;
+        return $this->order->frequentRenterPoints();
     }
 }
