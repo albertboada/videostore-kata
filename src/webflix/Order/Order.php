@@ -1,6 +1,6 @@
 <?php
 
-namespace webflix\Entity;
+namespace webflix\Order;
 
 use video\Customer;
 use video\Rental;

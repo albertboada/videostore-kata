@@ -2,7 +2,7 @@
 
 namespace video;
 
-use webflix\Entity\Order;
+use webflix\Order\Order;
 
 /**
  * Class RentalStatement
