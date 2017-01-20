@@ -3,6 +3,8 @@
 namespace video;
 
 use webflix\Order\Order;
+use webflix\Order\OrderStatementTextFormatter;
+use webflix\Order\OrderStatementFormatter;
 
 /**
  * Class RentalStatement
@@ -12,6 +14,9 @@ class RentalStatement
     /** @var Order */
     private $order;
 
+    /** @var OrderStatementFormatter */
+    private $formatter;
+
     /**
      * RentalStatement constructor.
      * @param string $customerName
@@ -19,6 +24,7 @@ class RentalStatement
     public function __construct(string $customerName)
     {
         $this->order = new Order(new Customer($customerName));
+        $this->formatter = new OrderStatementTextFormatter();
     }
 
     /**
@@ -34,56 +40,7 @@ class RentalStatement
      */
     public function makeRentalStatement()
     {
-        return $this->makeHeader() . $this->makeRentalLines() . $this->makeSummary();
-    }
-
-    /**
-     * @return string
-     */
-    private function makeHeader() : string
-    {
-        return "Rental Record for " . $this->name() . "\n";
-    }
-
-    /**
-     * @return string
-     */
-    private function makeRentalLines(): string
-    {
-        $rentalLines = "";
-
-        foreach ($this->rentals() as $rental) {
-            $rentalLines .= $this->makeRentalLine($rental);
-        }
-
-        return $rentalLines;
-    }
-
-    /**
-     * @param Rental $rental
-     * @return string
-     */
-    private function makeRentalLine($rental) : string
-    {
-        return $this->formatRentalLine($rental, $rental->determineAmount());
-    }
-
-    /**
-     * @param Rental $rental
-     * @param float $thisAmount
-     * @return string
-     */
-    private function formatRentalLine($rental, $thisAmount) : string
-    {
-        return "\t" . $rental->title() . "\t" . number_format($thisAmount, 1) . "\n";
-    }
-
-    /**
-     * @return string
-     */
-    private function makeSummary() : string
-    {
-        return "You owed " . $this->amountOwed() . "\n" . "You earned " . $this->frequentRenterPoints() . " frequent renter points\n";
+        return $this->formatter->execute($this->order);
     }
 
     /**
