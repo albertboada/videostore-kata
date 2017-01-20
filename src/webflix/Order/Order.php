@@ -29,6 +29,13 @@ class Order
     }
 
     /**
+     * @return string
+     */
+    public function customerName(): string {
+        return $this->customer->name();
+    }
+
+    /**
      * @return Rental[]
      */
     public function rentals(): array {

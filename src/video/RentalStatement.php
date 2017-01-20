@@ -49,7 +49,7 @@ class RentalStatement
      */
     public function name(): string
     {
-        return $this->order->customer()->name();
+        return $this->order->customerName();
     }
 
     public function rentals(): array

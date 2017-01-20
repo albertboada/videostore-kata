@@ -19,7 +19,7 @@ class OrderStatementTextFormatter implements OrderStatementFormatter
      */
     private function makeHeader(Order $order): string
     {
-        return "Rental Record for {$order->customer()->name()}\n";
+        return "Rental Record for {$order->customerName()}\n";
     }
 
     /**
