@@ -13,6 +13,12 @@ class Rental
     /** @var  int */
     private $daysRented;
 
+    /** @var float */
+    private $cost = 0.0;
+
+    /** @var int */
+    private $frequentRenterPoints = 0;
+
     /**
      * Rental constructor.
      * @param Movie $movie
@@ -22,6 +28,8 @@ class Rental
     {
         $this->movie = $movie;
         $this->daysRented = $daysRented;
+        $this->refreshCost();
+        $this->refreshFrequentRenterPoints();
     }
 
     /**
@@ -34,16 +42,28 @@ class Rental
     }
 
     /**
-     * Movie's amount accessor.
      * @return float
      */
-    public function determineAmount() : float
+    public function cost(): float
     {
-        return $this->movie->determineAmount($this->daysRented);
+        return $this->cost;
     }
 
-    public function determineFrequentRenterPoints()
+    /**
+     * @return int
+     */
+    public function frequentRenterPoints(): int
     {
-        return $this->movie->determineFrequentRenterPoints($this->daysRented);
+        return $this->frequentRenterPoints;
+    }
+
+    protected function refreshCost()
+    {
+        $this->cost = $this->movie->determineAmount($this->daysRented);
+    }
+
+    protected function refreshFrequentRenterPoints()
+    {
+        $this->frequentRenterPoints = $this->movie->determineFrequentRenterPoints($this->daysRented);
     }
 }

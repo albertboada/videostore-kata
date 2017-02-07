@@ -43,7 +43,7 @@ class OrderStatementTextFormatter implements OrderStatementFormatter
      */
     private function makeRentalLine(Rental $rental): string
     {
-        return $this->formatRentalLine($rental, $rental->determineAmount());
+        return $this->formatRentalLine($rental, $rental->cost());
     }
 
     /**

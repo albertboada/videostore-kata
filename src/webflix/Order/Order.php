@@ -55,7 +55,7 @@ class Order
     public function amountOwed(): float {
         $totalAmount = 0;
         foreach ($this->rentals() as /** @var Rental **/$rental) {
-            $totalAmount += $rental->determineAmount();
+            $totalAmount += $rental->cost();
         }
         return $totalAmount;
     }
@@ -66,7 +66,7 @@ class Order
     public function frequentRenterPoints(): int {
         $frequentRenterPoints = 0;
         foreach ($this->rentals() as /** @var Rental **/ $rental) {
-            $frequentRenterPoints += $rental->determineFrequentRenterPoints();
+            $frequentRenterPoints += $rental->frequentRenterPoints();
         }
         return $frequentRenterPoints;
     }
