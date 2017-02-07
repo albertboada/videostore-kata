@@ -13,6 +13,12 @@ class Order
     /** @var Rental[] */
     private $rentals = [];
 
+    /** @var float */
+    private $amountOwed = 0.0;
+
+    /** @var int */
+    private $frequentRenterPoints = 0;
+
     /**
      * Order constructor.
      * @param Customer $customer
@@ -45,27 +51,66 @@ class Order
     /**
      * @param Rental $rental
      */
-    public function addRental(Rental $rental) {
+    public function addRental(Rental $rental)
+    {
         $this->rentals []= $rental;
+
+        $this->refreshTotals();
     }
 
     /**
      * @return float
      */
-    public function amountOwed(): float {
+    public function amountOwed(): float
+    {
+        return $this->amountOwed;
+    }
+
+    /**
+     * @return int
+     */
+    public function frequentRenterPoints(): int
+    {
+        return $this->frequentRenterPoints;
+    }
+
+    protected function refreshTotals()
+    {
+        $this->refreshAmountOwed();
+        $this->refreshFrequentRenterPoints();
+    }
+
+    protected function refreshAmountOwed()
+    {
+        $this->amountOwed = static::calculateAmountOwed($this->rentals());
+    }
+
+    protected function refreshFrequentRenterPoints()
+    {
+        $this->frequentRenterPoints = static::calculateFrequentRenterPoints($this->rentals());
+    }
+
+    /**
+     * @param Rental[] $rentals
+     * @return float
+     */
+    protected static function calculateAmountOwed(array $rentals): float
+    {
         $totalAmount = 0;
-        foreach ($this->rentals() as /** @var Rental **/$rental) {
+        foreach ($rentals as $rental) {
             $totalAmount += $rental->cost();
         }
         return $totalAmount;
     }
 
     /**
+     * @param Rental[] $rentals
      * @return int
      */
-    public function frequentRenterPoints(): int {
+    protected static function calculateFrequentRenterPoints(array $rentals): int
+    {
         $frequentRenterPoints = 0;
-        foreach ($this->rentals() as /** @var Rental **/ $rental) {
+        foreach ($rentals as $rental) {
             $frequentRenterPoints += $rental->frequentRenterPoints();
         }
         return $frequentRenterPoints;
