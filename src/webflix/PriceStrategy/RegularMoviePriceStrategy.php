@@ -2,19 +2,18 @@
 
 namespace webflix\PriceStrategy;
 
-class RegularMoviePriceStrategy implements PriceStrategy
+class RegularMoviePriceStrategy extends DefaultPriceStrategy
 {
-    /**
-     * @implement
-     */
-    public function price(int $days): float
+    const PRICE_PER_DAY = 1.5;
+    const FIRST_DAYS = 2;
+    const PRICE_FIRST_DAYS = 2;
+
+    public function __construct()
     {
-        $price = 2;
-
-        if ($days > 2) {
-            $price += ($days - 2) * 1.5;
-        }
-        return $price;
-
+        parent::__construct(
+            static::PRICE_PER_DAY,
+            static::FIRST_DAYS,
+            static::PRICE_FIRST_DAYS
+        );
     }
 }

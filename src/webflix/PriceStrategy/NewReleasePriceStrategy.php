@@ -2,13 +2,14 @@
 
 namespace webflix\PriceStrategy;
 
-class NewReleasePriceStrategy implements PriceStrategy
+class NewReleasePriceStrategy extends PerDayPriceStrategy
 {
-    /**
-     * @implement
-     */
-    public function price(int $days): float
+    const PRICE_PER_DAY = 3.0;
+
+    public function __construct()
     {
-        return $days * 3.0;
+        parent::__construct(
+            static::PRICE_PER_DAY
+        );
     }
 }

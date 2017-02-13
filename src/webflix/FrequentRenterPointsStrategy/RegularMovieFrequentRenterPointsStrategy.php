@@ -2,13 +2,17 @@
 
 namespace webflix\FrequentRenterPointsStrategy;
 
-class RegularMovieFrequentRenterPointsStrategy implements FrequentRenterPointsStrategy
+class RegularMovieFrequentRenterPointsStrategy extends DefaultFrequentRenterPointsStrategy
 {
+    const POINTS = 1;
+
     /**
-     * @implement
+     * @override
      */
-    public function frequentRenterPoints(int $days): int
+    public function __construct()
     {
-        return 1;
+        parent::__construct(
+            static::POINTS
+        );
     }
 }
