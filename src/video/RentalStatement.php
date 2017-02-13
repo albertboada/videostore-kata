@@ -4,7 +4,6 @@ namespace video;
 
 use webflix\Order\Order;
 use webflix\Order\OrderStatementTextFormatter;
-use webflix\Order\OrderStatementFormatter;
 
 /**
  * Class RentalStatement
@@ -14,8 +13,6 @@ class RentalStatement
     /** @var Order */
     private $order;
 
-    /** @var OrderStatementFormatter */
-    private $formatter;
 
     /**
      * RentalStatement constructor.
@@ -24,7 +21,6 @@ class RentalStatement
     public function __construct(string $customerName)
     {
         $this->order = new Order(new Customer($customerName));
-        $this->formatter = new OrderStatementTextFormatter();
     }
 
     /**
@@ -40,7 +36,8 @@ class RentalStatement
      */
     public function makeRentalStatement()
     {
-        return $this->formatter->execute($this->order);
+        $formatter = new OrderStatementTextFormatter();
+        return $formatter->execute($this->order);
     }
 
     /**

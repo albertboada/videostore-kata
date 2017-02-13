@@ -7,7 +7,7 @@ use video\Rental;
 class OrderStatementTextFormatter implements OrderStatementFormatter
 {
     /**
-     * @override
+     * @implement
      */
     public function execute(Order $order)
     {
@@ -15,6 +15,7 @@ class OrderStatementTextFormatter implements OrderStatementFormatter
     }
 
     /**
+     * @param Order $order
      * @return string
      */
     private function makeHeader(Order $order): string

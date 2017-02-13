@@ -7,10 +7,10 @@ namespace video;
  */
 class Rental
 {
-    /** @var  Movie */
+    /** @var Movie */
     private $movie;
 
-    /** @var  int */
+    /** @var int */
     private $daysRented;
 
     /** @var float */
@@ -36,7 +36,7 @@ class Rental
      * Movie's title accessor.
      * @return string
      */
-    public function title() : string
+    public function title(): string
     {
         return $this->movie->title();
     }

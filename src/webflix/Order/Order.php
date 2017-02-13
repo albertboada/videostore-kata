@@ -23,28 +23,32 @@ class Order
      * Order constructor.
      * @param Customer $customer
      */
-    public function __construct(Customer $customer) {
+    public function __construct(Customer $customer)
+    {
         $this->customer = $customer;
     }
 
     /**
      * @return Customer
      */
-    public function customer(): Customer {
+    public function customer(): Customer
+    {
         return $this->customer;
     }
 
     /**
      * @return string
      */
-    public function customerName(): string {
+    public function customerName(): string
+    {
         return $this->customer->name();
     }
 
     /**
      * @return Rental[]
      */
-    public function rentals(): array {
+    public function rentals(): array
+    {
         return $this->rentals;
     }
 
