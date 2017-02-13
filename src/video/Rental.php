@@ -59,11 +59,15 @@ class Rental
 
     protected function refreshCost()
     {
-        $this->cost = $this->movie->determineAmount($this->daysRented);
+        $strategy = $this->movie->priceStrategy();
+
+        $this->cost = $strategy->price($this->daysRented);
     }
 
     protected function refreshFrequentRenterPoints()
     {
-        $this->frequentRenterPoints = $this->movie->determineFrequentRenterPoints($this->daysRented);
+        $strategy = $this->movie->frequentRenterPointsStrategy();
+
+        $this->frequentRenterPoints = $strategy->frequentRenterPoints($this->daysRented);
     }
 }
