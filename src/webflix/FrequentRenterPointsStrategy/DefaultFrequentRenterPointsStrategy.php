@@ -17,6 +17,6 @@ class DefaultFrequentRenterPointsStrategy implements FrequentRenterPointsStrateg
      */
     public function frequentRenterPoints(int $days): int
     {
-        return 1;
+        return $this->points;
     }
 }
