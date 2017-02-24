@@ -1,0 +1,7 @@
+default:
+  autoload:
+    'src': %paths.base%/tests/Behat/src
+  suites:
+        VideoStore:
+            paths: [ %paths.base%/tests/Behat/features/Webflix ]
+            contexts: [ Tests\Behat\WebflixContext ]

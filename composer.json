@@ -16,7 +16,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
+      "Tests\\": "tests/",
+      "Tests\\Behat\\": "tests/Behat/src"
     }
   },
   "require-dev": {
