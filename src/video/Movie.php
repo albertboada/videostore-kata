@@ -2,21 +2,37 @@
 
 namespace video;
 
+use webflix\FrequentRenterPointsStrategy\FrequentRenterPointsStrategy;
+use webflix\PriceStrategy\PriceStrategy;
+
 /**
  * Class Movie
  */
-abstract class Movie
+class Movie
 {
     /** @var  string */
     private $title;
 
+    /** @var PriceStrategy */
+    private $priceStrategy;
+
+    /** @var FrequentRenterPointsStrategy */
+    private $frequentRenterPointsStrategy;
+
     /**
      * Movie constructor.
-     * @param $title
+     * @param string $title
+     * @param PriceStrategy $priceStrategy
+     * @param FrequentRenterPointsStrategy $frequentRenterPointsStrategy
      */
-    public function __construct($title)
-    {
+    public function __construct(
+        string $title,
+        PriceStrategy $priceStrategy,
+        FrequentRenterPointsStrategy $frequentRenterPointsStrategy
+    ) {
         $this->title = $title;
+        $this->priceStrategy = $priceStrategy;
+        $this->frequentRenterPointsStrategy = $frequentRenterPointsStrategy;
     }
 
     /**
@@ -28,7 +44,19 @@ abstract class Movie
         return $this->title;
     }
 
-    abstract public function determineAmount($daysRented) : float;
+    /**
+     * @return PriceStrategy
+     */
+    public function priceStrategy(): PriceStrategy
+    {
+        return $this->priceStrategy;
+    }
 
-    abstract public function determineFrequentRenterPoints($daysRented) : int;
+    /**
+     * @return FrequentRenterPointsStrategy
+     */
+    public function frequentRenterPointsStrategy(): FrequentRenterPointsStrategy
+    {
+        return $this->frequentRenterPointsStrategy;
+    }
 }

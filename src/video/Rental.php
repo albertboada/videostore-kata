@@ -7,11 +7,17 @@ namespace video;
  */
 class Rental
 {
-    /** @var  Movie */
+    /** @var Movie */
     private $movie;
 
-    /** @var  int */
+    /** @var int */
     private $daysRented;
+
+    /** @var float */
+    private $cost = 0.0;
+
+    /** @var int */
+    private $frequentRenterPoints = 0;
 
     /**
      * Rental constructor.
@@ -22,28 +28,46 @@ class Rental
     {
         $this->movie = $movie;
         $this->daysRented = $daysRented;
+        $this->refreshCost();
+        $this->refreshFrequentRenterPoints();
     }
 
     /**
      * Movie's title accessor.
      * @return string
      */
-    public function title() : string
+    public function title(): string
     {
         return $this->movie->title();
     }
 
     /**
-     * Movie's amount accessor.
      * @return float
      */
-    public function determineAmount() : float
+    public function cost(): float
     {
-        return $this->movie->determineAmount($this->daysRented);
+        return $this->cost;
     }
 
-    public function determineFrequentRenterPoints()
+    /**
+     * @return int
+     */
+    public function frequentRenterPoints(): int
     {
-        return $this->movie->determineFrequentRenterPoints($this->daysRented);
+        return $this->frequentRenterPoints;
+    }
+
+    protected function refreshCost()
+    {
+        $strategy = $this->movie->priceStrategy();
+
+        $this->cost = $strategy->price($this->daysRented);
+    }
+
+    protected function refreshFrequentRenterPoints()
+    {
+        $strategy = $this->movie->frequentRenterPointsStrategy();
+
+        $this->frequentRenterPoints = $strategy->frequentRenterPoints($this->daysRented);
     }
 }

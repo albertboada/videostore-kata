@@ -2,35 +2,33 @@
 
 namespace video;
 
+use webflix\Order\Order;
+use webflix\Order\OrderStatementTextFormatter;
+
 /**
  * Class RentalStatement
  */
 class RentalStatement
 {
-    /** @var  string */
-    private $name;
-    /** @var  float */
-    private $totalAmount;
-    /** @var  int */
-    private $frequentRenterPoints;
-    /** @var  array */
-    private $rentals;
+    /** @var Order */
+    private $order;
+
 
     /**
      * RentalStatement constructor.
-     * @param $customerName
+     * @param string $customerName
      */
-    public function __construct($customerName)
+    public function __construct(string $customerName)
     {
-        $this->name = $customerName;
+        $this->order = new Order(new Customer($customerName));
     }
 
     /**
      * @param Rental $rental
      */
-    public function addRental($rental)
+    public function addRental(Rental $rental)
     {
-        $this->rentals[] = $rental;
+        $this->order->addRental($rental);
     }
 
     /**
@@ -38,99 +36,39 @@ class RentalStatement
      */
     public function makeRentalStatement()
     {
-        $this->clearTotals();
-
-        return $this->makeHeader() . $this->makeRentalLines() . $this->makeSummary();
-    }
-
-    /**
-     * Reset amount and points.
-     */
-    private function clearTotals()
-    {
-        $this->totalAmount = 0;
-        $this->frequentRenterPoints = 0;
-    }
-
-    /**
-     * @return string
-     */
-    private function makeHeader() : string
-    {
-        return "Rental Record for " . $this->name() . "\n";
-    }
-
-    /**
-     * @return string
-     */
-    private function makeRentalLines() : string
-    {
-        $rentalLines = "";
-
-        foreach($this->rentals as $rental) {
-            $rentalLines .= $this->makeRentalLine($rental);
-        }
-
-        return $rentalLines;
-    }
-
-    /**
-     * @param Rental $rental
-     * @return string
-     */
-    private function makeRentalLine($rental) : string
-    {
-        /** @var float $thisAmount */
-        $thisAmount = $rental->determineAmount();
-
-        $this->frequentRenterPoints += $rental->determineFrequentRenterPoints();
-        $this->totalAmount += $thisAmount;
-
-        return $this->formatRentalLine($rental, $thisAmount);
-    }
-
-    /**
-     * @param Rental $rental
-     * @param float $thisAmount
-     * @return string
-     */
-    private function formatRentalLine($rental, $thisAmount) : string
-    {
-        return "\t" . $rental->title() . "\t" . $thisAmount . "\n";
-    }
-
-    /**
-     * @return string
-     */
-    private function makeSummary() : string
-    {
-        return "You owed " . $this->totalAmount . "\n" . "You earned " . $this->frequentRenterPoints . " frequent renter points\n";
+        $formatter = new OrderStatementTextFormatter();
+        return $formatter->execute($this->order);
     }
 
     /**
      * Name accessor.
      * @return string
      */
-    public function name() : string
+    public function name(): string
     {
-        return $this->name;
+        return $this->order->customerName();
+    }
+
+    public function rentals(): array
+    {
+        return $this->order->rentals();
     }
 
     /**
      * Amount owed accessor.
      * @return float
      */
-    public function amountOwed() : float
+    public function amountOwed(): float
     {
-        return $this->totalAmount;
+        return $this->order->amountOwed();
     }
 
     /**
      * Frequent renter points accessor.
      * @return int
      */
-    public function frequentRenterPoints() : int
+    public function frequentRenterPoints(): int
     {
-        return $this->frequentRenterPoints;
+        return $this->order->frequentRenterPoints();
     }
 }
