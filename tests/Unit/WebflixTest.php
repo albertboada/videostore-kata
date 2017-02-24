@@ -1,6 +1,6 @@
 <?php
 
-namespace tests;
+namespace Tests\Unit;
 
 use PHPUnit_Framework_TestCase;
 use video\ChildrensMovie;
@@ -14,7 +14,7 @@ use video\RentalStatement;
 /**
  * Class VideoStoreTest
  */
-class VideoStoreTest extends PHPUnit_Framework_TestCase
+class WebflixTest extends PHPUnit_Framework_TestCase
 {
     /** @var  RentalStatement */
     private $statement;

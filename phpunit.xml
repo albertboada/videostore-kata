@@ -14,7 +14,7 @@
 
     <testsuites>
         <testsuite name="Webflix Tests">
-            <directory>./tests/</directory>
+            <directory>./tests/Unit</directory>
         </testsuite>
     </testsuites>
 
